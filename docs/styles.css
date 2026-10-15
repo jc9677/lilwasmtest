@@ -173,7 +173,15 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px
 .reset-dialog .connect-form h2 { margin-bottom: 13px; }
 
 @media (max-width: 760px) {
-  .app-shell { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); }
+  .app-shell {
+    position: fixed;
+    inset: var(--visual-viewport-top, 0px) 0 auto;
+    height: var(--visual-viewport-height, 100dvh);
+    min-height: 0;
+    overflow: hidden;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
   .sidebar { min-height: 0; padding: 12px 14px 10px; border-right: 0; border-bottom: 1px solid var(--line); }
   .brand-lockup { padding: 0 2px 12px; }
   .brand-mark { width: 35px; height: 35px; border-radius: 11px 11px 11px 4px; font-size: 20px; }
@@ -195,7 +203,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px
   .contact-name { max-width: 120px; font-size: 10px; }
   .contact-preview, .contact-time, .sidebar-footer { display: none; }
   .empty-contact-list { padding: 4px; font-size: 9px; }
-  .main-panel { min-height: 0; min-height: calc(100vh - 196px); }
+  .main-panel { min-height: 0; }
   .topbar { min-height: 48px; padding: 0 14px; }
   .topbar-route { gap: 6px; font-size: 8px; }
   .global-status { max-width: 155px; overflow: hidden; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }

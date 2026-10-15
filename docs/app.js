@@ -54,6 +54,23 @@ const state = {
   toastTimer: null,
 };
 
+function syncVisualViewport() {
+  const viewport = window.visualViewport;
+  document.documentElement.style.setProperty(
+    "--visual-viewport-height",
+    `${viewport?.height ?? window.innerHeight}px`,
+  );
+  document.documentElement.style.setProperty(
+    "--visual-viewport-top",
+    `${viewport?.offsetTop ?? 0}px`,
+  );
+}
+
+syncVisualViewport();
+window.addEventListener("resize", syncVisualViewport);
+window.visualViewport?.addEventListener("resize", syncVisualViewport);
+window.visualViewport?.addEventListener("scroll", syncVisualViewport);
+
 function openDatabase() {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
