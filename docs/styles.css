@@ -234,6 +234,13 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
 }
 
+@media (max-width: 760px), (hover: none) and (pointer: coarse) {
+  .profile-copy input,
+  .composer-box textarea,
+  .connect-form input,
+  .connect-form textarea { font-size: 16px; }
+}
+
 @media (max-height: 700px) and (min-width: 761px) {
   .welcome-panel { min-height: 0; padding-top: 35px; padding-bottom: 42px; }
   .welcome-art { width: 112px; height: 112px; margin-bottom: 19px; transform: scale(.82); }
