@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f7f4">
+    <title>tailtalk</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true"><span class="mark-letter">t<span>.</span></span></div>
+          <div>
+            <p class="eyebrow">TAILCAT / MESSENGER</p>
+            <h1>tailtalk</h1>
+          </div>
+        </div>
+
+        <section class="profile-section" aria-label="Your profile">
+          <div class="section-heading"><span>YOUR SPACE</span><span class="local-chip">LOCAL</span></div>
+          <label class="profile-field" for="profile-name">
+            <span class="self-avatar" aria-hidden="true">ME</span>
+            <span class="profile-copy"><span class="micro-label">DISPLAY NAME</span><input id="profile-name" maxlength="32" value="You" autocomplete="nickname"></span>
+          </label>
+        </section>
+
+        <section class="invite-panel" aria-label="Your Tailcat address">
+          <div class="invite-heading">
+            <span class="micro-label">YOUR INVITE</span>
+            <span id="listener-state" class="listener-state"><i></i> STARTING</span>
+          </div>
+          <code id="own-address" class="own-address">Preparing address…</code>
+          <button id="copy-own-address" class="copy-invite" type="button" disabled><span>Copy invite</span><span aria-hidden="true">↗</span></button>
+        </section>
+
+        <button id="new-chat-button" class="new-chat-button" type="button"><span class="plus-mark" aria-hidden="true">+</span> New conversation</button>
+
+        <div class="contacts-heading"><span>CONVERSATIONS</span><span id="contact-count">00</span></div>
+        <ul id="contact-list" class="contact-list" aria-label="Conversations"></ul>
+
+        <footer class="sidebar-footer">
+          <span class="footer-mark" aria-hidden="true">◉</span>
+          <span>Saved on this browser</span>
+          <button id="clear-local-data" class="text-button" type="button" title="Delete local conversations and identity">Reset</button>
+        </footer>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div class="topbar-route"><span class="route-dot"></span><span>PRIVATE CHANNEL</span><span class="route-divider">/</span><span>1:1</span></div>
+          <div class="topbar-actions">
+            <span id="global-status" class="global-status" data-state="loading">Loading Tailcat</span>
+            <button id="top-new-chat" class="top-new-chat" type="button" aria-label="New conversation" title="New conversation">+</button>
+          </div>
+        </header>
+
+        <section id="welcome-panel" class="welcome-panel">
+          <div class="welcome-index"><span>FIELD NOTE 001</span><span>PEER TO PEER</span></div>
+          <div class="welcome-art" aria-hidden="true">
+            <span class="art-ring ring-one"></span>
+            <span class="art-ring ring-two"></span>
+            <span class="art-core"><span class="mark-letter">t<span>.</span></span></span>
+            <span class="art-node node-one"></span>
+            <span class="art-node node-two"></span>
+          </div>
+          <p class="welcome-overline">A SMALLER KIND OF NETWORK</p>
+          <h2>Good conversations<br>travel light.</h2>
+          <p class="welcome-empty">Choose a conversation or start a new one.</p>
+          <button class="welcome-cta" type="button" data-open-connect><span>Start a conversation</span><span aria-hidden="true">↗</span></button>
+          <div class="welcome-footnote"><span>01</span><span>NO ACCOUNTS. NO CHAT SERVER.</span></div>
+        </section>
+
+        <section id="conversation-panel" class="conversation-panel" hidden>
+          <header class="conversation-header">
+            <div class="conversation-person">
+              <div id="conversation-avatar" class="peer-avatar" aria-hidden="true">·</div>
+              <div class="conversation-title">
+                <h2 id="conversation-name">Conversation</h2>
+                <div class="peer-subtitle"><span id="peer-state" class="peer-state">OFFLINE</span><span class="peer-separator">·</span><code id="peer-address-short"></code></div>
+              </div>
+            </div>
+            <div class="conversation-actions">
+              <button id="copy-peer-address" class="quiet-button" type="button" title="Copy Tailcat address">Copy address</button>
+              <button id="reconnect-button" class="reconnect-button" type="button">Connect</button>
+            </div>
+          </header>
+
+          <div id="message-scroll" class="message-scroll">
+            <div id="message-list" class="message-list" aria-live="polite" aria-relevant="additions text"></div>
+          </div>
+
+          <form id="message-form" class="composer">
+            <label class="composer-box" for="message-input">
+              <textarea id="message-input" rows="1" maxlength="4000" placeholder="Write a message…" disabled></textarea>
+              <span class="composer-hint">ENTER TO SEND <span>·</span> SHIFT + ENTER FOR A NEW LINE</span>
+            </label>
+            <button id="send-button" class="send-button" type="submit" aria-label="Send message" title="Send message" disabled><span>Send</span><span aria-hidden="true">↗</span></button>
+            <div class="composer-caption"><span id="message-limit">0 / 4000</span><span>Messages stay in this browser.</span></div>
+          </form>
+        </section>
+
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
+      </main>
+    </div>
+
+    <dialog id="connect-dialog" class="connect-dialog">
+      <form id="connect-form" class="connect-form">
+        <div class="dialog-topline"><span>NEW CONNECTION</span><button id="close-dialog" class="dialog-close" type="button" aria-label="Close">×</button></div>
+        <h2>Who are we<br>writing to?</h2>
+        <label for="connect-name">Name for this conversation</label>
+        <input id="connect-name" maxlength="32" placeholder="A name you'll recognize" autocomplete="off">
+        <label for="connect-address">Their Tailcat address</label>
+        <textarea id="connect-address" rows="3" required spellcheck="false" autocomplete="off" placeholder="tc…"></textarea>
+        <p class="address-warning">An invite is a private key. Share it only with the person you intend to reach.</p>
+        <div class="dialog-actions"><button id="cancel-connect" class="quiet-button" type="button">Cancel</button><button class="reconnect-button" type="submit">Connect <span aria-hidden="true">↗</span></button></div>
+      </form>
+    </dialog>
+
+    <dialog id="reset-dialog" class="connect-dialog reset-dialog">
+      <form id="reset-form" class="connect-form">
+        <div class="dialog-topline"><span>LOCAL DATA</span><button id="close-reset-dialog" class="dialog-close" type="button" aria-label="Close">×</button></div>
+        <h2>Start over<br>on this device?</h2>
+        <p class="address-warning">This permanently deletes saved conversations, messages, and your Tailcat identity from this browser. It does not delete the other person's copy.</p>
+        <div class="dialog-actions"><button id="cancel-reset" class="quiet-button" type="button">Keep data</button><button class="danger-button" type="submit">Delete local data</button></div>
+      </form>
+    </dialog>
+
+    <script src="./wasm_exec.js"></script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
