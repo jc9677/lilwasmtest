@@ -264,6 +264,38 @@ function hashCode(text) {
   return hash;
 }
 
+function appendMessageText(container, text) {
+  const urlPattern = /\b(?:https?:\/\/|www\.)[^\s<>"']+/gi;
+  let textIndex = 0;
+  for (const match of text.matchAll(urlPattern)) {
+    let displayUrl = match[0].replace(/[.,!?;:]+$/, "");
+    for (const [opening, closing] of [["(", ")"], ["[", "]"], ["{", "}"]]) {
+      while (displayUrl.endsWith(closing)) {
+        const openingCount = displayUrl.split(opening).length - 1;
+        const closingCount = displayUrl.split(closing).length - 1;
+        if (closingCount <= openingCount) break;
+        displayUrl = displayUrl.slice(0, -1);
+      }
+    }
+    if (!displayUrl) continue;
+    const href = displayUrl.startsWith("www.") ? `https://${displayUrl}` : displayUrl;
+    try {
+      new URL(href);
+    } catch {
+      continue;
+    }
+    container.append(document.createTextNode(text.slice(textIndex, match.index)));
+    const link = document.createElement("a");
+    link.href = href;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = displayUrl;
+    container.append(link);
+    textIndex = match.index + displayUrl.length;
+  }
+  container.append(document.createTextNode(text.slice(textIndex)));
+}
+
 function renderMessages() {
   elements.messageList.replaceChildren();
   if (state.messages.length === 0) {
@@ -292,7 +324,7 @@ function renderMessages() {
     author.textContent = message.from === "self" ? "You" : contactTitle(state.contacts.get(state.activeAddress) || { remoteName: "Peer" });
     const bubble = document.createElement("div");
     bubble.className = "message-bubble";
-    bubble.textContent = message.text;
+    appendMessageText(bubble, message.text);
     const meta = document.createElement("div");
     meta.className = "message-meta";
     const time = document.createElement("time");

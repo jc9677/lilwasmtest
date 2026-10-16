@@ -133,6 +133,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px
 .message-row[data-from="self"] { align-self: flex-end; align-items: flex-end; }
 .message-author { color: var(--muted); font-size: 10px; font-weight: 700; }
 .message-bubble { padding: 11px 14px; border: 1px solid #e0e8e2; border-radius: 4px 13px 13px 13px; background: white; color: var(--ink); font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; white-space: pre-wrap; }
+.message-bubble a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .message-row[data-from="self"] .message-bubble { border-color: #c9ddd0; border-radius: 13px 4px 13px 13px; background: #e6f0e8; }
 .message-meta { display: flex; align-items: center; gap: 6px; color: var(--quiet); font-family: var(--mono); font-size: 9px; }
 .message-status[data-status="failed"] { color: var(--coral); }
